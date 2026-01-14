@@ -70,7 +70,7 @@
                     <input type="text" id="searchInput" class="search-input" placeholder="Search products...">
                     <button id="searchBtn" class="btn">Search</button>
                 </div>
-                <span class="info-badge">⚡ 25+ products offline for instant results</span>
+                <span class="info-badge">⚡ 60+ products offline • Restaurant chains supported</span>
 
                 <div class="filters">
                     <div class="filter-section">
@@ -125,6 +125,81 @@
             {code:'9',name:'Jell-O Strawberry',brand:'Kraft',ing:'Sugar, gelatin, adipic acid, contains less than 2% of artificial flavor, disodium phosphate, sodium citrate, fumaric acid, red 40',src:'offline'},
             {code:'10',name:'Yoplait Yogurt',brand:'General Mills',ing:'Cultured pasteurized grade A low fat milk, sugar, strawberries, modified corn starch, kosher gelatin, citric acid, natural flavor, pectin, colored with carmine',src:'offline'},
             {code:'11',name:'Campbells Clam Chowder',brand:'Campbells',ing:'Water, clams, potatoes, wheat flour, vegetable oil, modified food starch, salt, butter, clam juice concentrate',src:'offline'}
+            {code:'11',name:'Campbells Clam Chowder',brand:'Campbells',ing:'Water, clams, potatoes, wheat flour, vegetable oil, modified food starch, salt, butter, clam juice concentrate',src:'offline'},
+            
+            // Breakfast cereals
+            {code:'12',name:'Frosted Flakes',brand:'Kelloggs',ing:'Milled corn, sugar, malt flavor, contains 2% or less of salt, BHT for freshness',src:'offline'},
+            {code:'13',name:'Honey Nut Cheerios',brand:'General Mills',ing:'Whole grain oats, sugar, oat bran, modified corn starch, honey, brown sugar syrup, salt, tripotassium phosphate, canola oil, natural almond flavor, vitamin E',src:'offline'},
+            {code:'14',name:'Lucky Charms',brand:'General Mills',ing:'Whole grain oats, sugar, corn starch, modified corn starch, corn syrup, dextrose, gelatin, trisodium phosphate, red 40, yellow 5 and 6, blue 1, natural and artificial flavor',src:'offline'},
+            {code:'15',name:'Rice Krispies',brand:'Kelloggs',ing:'Rice, sugar, salt, malt flavor, BHT for freshness',src:'offline'},
+            {code:'16',name:'Cinnamon Toast Crunch',brand:'General Mills',ing:'Whole grain wheat, sugar, rice flour, canola oil, fructose, maltodextrin, dextrose, salt, cinnamon, trisodium phosphate, soy lecithin, caramel color',src:'offline'},
+            
+            // Snacks - Chips
+            {code:'17',name:'Pringles Original',brand:'Pringles',ing:'Dried potatoes, vegetable oil, degerminated yellow corn flour, cornstarch, rice flour, maltodextrin, mono and diglycerides, salt, wheat starch',src:'offline'},
+            {code:'18',name:'Ruffles Cheddar and Sour Cream',brand:'Frito-Lay',ing:'Potatoes, vegetable oil, maltodextrin, salt, whey, cheddar cheese, monosodium glutamate, buttermilk, romano cheese, natural flavors',src:'offline'},
+            {code:'19',name:'Tostitos Hint of Lime',brand:'Frito-Lay',ing:'Corn, vegetable oil, salt, maltodextrin, citric acid, sugar, natural flavors',src:'offline'},
+            {code:'20',name:'Cheetos Crunchy',brand:'Frito-Lay',ing:'Enriched corn meal, vegetable oil, cheese seasoning, whey, cheddar cheese, buttermilk, salt, monosodium glutamate, natural and artificial flavors, yellow 6',src:'offline'},
+            
+            // Cookies and Crackers
+            {code:'21',name:'Chips Ahoy',brand:'Nabisco',ing:'Unbleached enriched flour, sugar, palm oil, semisweet chocolate chips, high fructose corn syrup, leavening, salt, soy lecithin, natural and artificial flavor, caramel color',src:'offline'},
+            {code:'22',name:'Nilla Wafers',brand:'Nabisco',ing:'Unbleached enriched flour, sugar, soybean oil, high fructose corn syrup, partially hydrogenated cottonseed oil, whey, eggs, leavening, salt, natural and artificial flavor',src:'offline'},
+            {code:'23',name:'Ritz Crackers',brand:'Nabisco',ing:'Unbleached enriched flour, soybean oil, sugar, partially hydrogenated cottonseed oil, salt, leavening, high fructose corn syrup, soy lecithin, malted barley flour, natural flavor',src:'offline'},
+            {code:'24',name:'Wheat Thins Original',brand:'Nabisco',ing:'Whole grain wheat flour, soybean oil, cornstarch, sugar, malt syrup, salt, invert sugar, leavening',src:'offline'},
+            {code:'25',name:'Goldfish Crackers',brand:'Pepperidge Farm',ing:'Enriched wheat flour, cheddar cheese, vegetable oils, salt, yeast, sugar, autolyzed yeast extract, paprika, spices, celery, onion powder',src:'offline'},
+            
+            // Candy
+            {code:'26',name:'Skittles',brand:'Mars',ing:'Sugar, corn syrup, hydrogenated palm kernel oil, citric acid, tapioca dextrin, modified corn starch, natural and artificial flavors, colors',src:'offline'},
+            {code:'27',name:'M&Ms Plain',brand:'Mars',ing:'Milk chocolate, sugar, cocoa butter, skim milk, lactose, milkfat, soy lecithin, salt, artificial and natural flavors, cornstarch, corn syrup, dextrin, coloring',src:'offline'},
+            {code:'28',name:'Reeses Peanut Butter Cups',brand:'Hersheys',ing:'Milk chocolate, peanuts, sugar, dextrose, salt, TBHQ',src:'offline'},
+            {code:'29',name:'Sour Patch Kids',brand:'Mondelez',ing:'Sugar, invert sugar, corn syrup, modified corn starch, tartaric acid, citric acid, natural and artificial flavor, yellow 6, red 40, yellow 5, blue 1',src:'offline'},
+            {code:'30',name:'Twizzlers',brand:'Hersheys',ing:'Corn syrup, wheat flour, sugar, cornstarch, palm oil, salt, artificial flavor, citric acid, red 40',src:'offline'},
+            
+            // Beverages
+            {code:'31',name:'Pepsi',brand:'PepsiCo',ing:'Carbonated water, high fructose corn syrup, caramel color, sugar, phosphoric acid, caffeine, citric acid, natural flavor',src:'offline'},
+            {code:'32',name:'Sprite',brand:'Coca-Cola',ing:'Carbonated water, high fructose corn syrup, citric acid, natural flavors, sodium citrate, sodium benzoate',src:'offline'},
+            {code:'33',name:'Dr Pepper',brand:'Dr Pepper',ing:'Carbonated water, high fructose corn syrup, caramel color, phosphoric acid, natural and artificial flavors, sodium benzoate, caffeine',src:'offline'},
+            {code:'34',name:'Gatorade Fruit Punch',brand:'PepsiCo',ing:'Water, sugar, dextrose, citric acid, salt, sodium citrate, monopotassium phosphate, natural flavor, red 40',src:'offline'},
+            {code:'35',name:'Arizona Iced Tea',brand:'Arizona',ing:'Premium brewed black tea, high fructose corn syrup, citric acid, natural flavors',src:'offline'},
+            
+            // Bread and Bakery
+            {code:'36',name:'Wonder Bread White',brand:'Flowers Foods',ing:'Enriched wheat flour, water, high fructose corn syrup, yeast, soybean oil, salt, calcium propionate, monoglycerides, datem, soy lecithin, calcium sulfate',src:'offline'},
+            {code:'37',name:'Thomas English Muffins',brand:'Bimbo Bakeries',ing:'Enriched wheat flour, water, yeast, farina, calcium sulfate, salt, sugar, soybean oil, preservatives, monoglycerides, datem, soy lecithin',src:'offline'},
+            {code:'38',name:'Nature Valley Granola Bars',brand:'General Mills',ing:'Whole grain oats, sugar, canola oil, rice flour, honey, brown sugar syrup, salt, soy lecithin, baking soda, natural flavor, vitamin E',src:'offline'},
+            
+            // Condiments
+            {code:'39',name:'Heinz Ketchup',brand:'Kraft Heinz',ing:'Tomato concentrate, distilled vinegar, high fructose corn syrup, corn syrup, salt, spice, onion powder, natural flavoring',src:'offline'},
+            {code:'40',name:'French\'s Yellow Mustard',brand:'McCormick',ing:'Distilled vinegar, water, mustard seed, salt, turmeric, paprika, spice, natural flavors, garlic powder',src:'offline'},
+            {code:'41',name:'Hellmanns Real Mayonnaise',brand:'Unilever',ing:'Soybean oil, water, whole eggs and egg yolks, vinegar, salt, sugar, lemon juice concentrate, calcium disodium EDTA, natural flavors',src:'offline'},
+            {code:'42',name:'Hidden Valley Ranch',brand:'Clorox',ing:'Vegetable oil, water, egg yolk, sugar, salt, buttermilk, natural flavors, spices, garlic, onion, vinegar, phosphoric acid, xanthan gum',src:'offline'},
+            
+            // Frozen Foods
+            {code:'43',name:'Hot Pockets Ham and Cheese',brand:'Nestle',ing:'Enriched flour, water, cooked ham, cheddar cheese, soybean oil, salt, yeast, sugar, whey, romano cheese, natural flavors',src:'offline'},
+            {code:'44',name:'Totinos Pizza Rolls Pepperoni',brand:'General Mills',ing:'Enriched flour, water, pepperoni, tomato paste, mozzarella cheese, soybean oil, salt, yeast, sugar, spices, modified cornstarch',src:'offline'},
+            {code:'45',name:'Birds Eye Frozen Peas',brand:'Conagra',ing:'Peas',src:'offline'},
+            {code:'46',name:'Ore-Ida French Fries',brand:'Heinz',ing:'Potatoes, vegetable oil, salt, dextrose, sodium acid pyrophosphate',src:'offline'},
+            
+            // Dairy
+            {code:'47',name:'Kraft Singles American Cheese',brand:'Kraft Heinz',ing:'Milk, whey, milkfat, milk protein concentrate, salt, calcium phosphate, sodium citrate, whey protein concentrate, sodium phosphate, sorbic acid, apocarotenal, annatto, enzymes, vitamin D3',src:'offline'},
+            {code:'48',name:'Philadelphia Cream Cheese',brand:'Kraft Heinz',ing:'Pasteurized milk and cream, salt, carob bean gum, cheese culture',src:'offline'},
+            {code:'49',name:'Daisy Sour Cream',brand:'Daisy',ing:'Cultured cream, enzymes',src:'offline'},
+            
+            // Pasta and Rice
+            {code:'50',name:'Barilla Spaghetti',brand:'Barilla',ing:'Semolina, durum wheat flour, niacin, iron, thiamine mononitrate, riboflavin, folic acid',src:'offline'},
+            {code:'51',name:'Kraft Mac and Cheese',brand:'Kraft Heinz',ing:'Enriched macaroni, cheese sauce mix, whey, milkfat, milk protein concentrate, salt, sodium tripolyphosphate, citric acid, lactic acid, yellow 5, yellow 6',src:'offline'},
+            {code:'52',name:'Uncle Bens White Rice',brand:'Mars',ing:'Enriched long grain parboiled rice, iron, niacin, thiamine mononitrate, folic acid',src:'offline'},
+            
+            // Canned Goods
+            {code:'53',name:'Progresso Chicken Noodle Soup',brand:'General Mills',ing:'Chicken broth, cooked white chicken, egg noodles, carrots, celery, salt, chicken fat, sugar, monosodium glutamate, yeast extract',src:'offline'},
+            {code:'54',name:'Campbells Tomato Soup',brand:'Campbells',ing:'Tomato puree, water, wheat flour, high fructose corn syrup, salt, potassium chloride, citric acid, flavoring, ascorbic acid',src:'offline'},
+            {code:'55',name:'Del Monte Green Beans',brand:'Del Monte',ing:'Green beans, water, salt',src:'offline'},
+            {code:'56',name:'Bush\'s Baked Beans',brand:'Bush Brothers',ing:'Prepared white beans, water, brown sugar, sugar, bacon, salt, mustard, onion powder, spices, garlic powder, natural flavor',src:'offline'},
+            
+            // Breakfast items
+            {code:'57',name:'Eggo Waffles',brand:'Kelloggs',ing:'Enriched flour, water, vegetable oil, eggs, sugar, leavening, salt, whey, soy lecithin',src:'offline'},
+            {code:'58',name:'Pop-Tarts Strawberry',brand:'Kelloggs',ing:'Enriched flour, corn syrup, high fructose corn syrup, dextrose, soybean and palm oil, sugar, cracker meal, wheat starch, strawberries, salt, gelatin, leavening, citric acid, modified cornstarch, yellow corn flour, red 40, natural and artificial flavor',src:'offline'},
+            {code:'59',name:'Aunt Jemima Pancake Mix',brand:'PepsiCo',ing:'Enriched bleached flour, sugar, leavening, dextrose, salt, calcium carbonate, soybean oil, artificial flavor',src:'offline'},
+            {code:'60',name:'Quaker Instant Oatmeal',brand:'PepsiCo',ing:'Whole grain rolled oats, sugar, natural and artificial flavor, salt, calcium carbonate, guar gum, caramel color, niacinamide, vitamin A palmitate, reduced iron, pyridoxine hydrochloride, riboflavin, thiamin mononitrate, folic acid',src:'offline'}
+        ];
         ];
 
         const ingDB = {
@@ -265,6 +340,97 @@
             render();
         }
 
+        // FatSecret API Configuration
+        const FATSECRET_CONFIG = {
+            clientId: 'e70882a787674cb190603c87953e4e35',
+            clientSecret: '4fc6292bae3b492db3b4a042b3530b87',
+            enabled: true // Restaurant search enabled!
+        };
+
+        let fatSecretToken = null;
+        let tokenExpiry = 0;
+
+        async function getFatSecretToken() {
+            if(!FATSECRET_CONFIG.enabled) return null;
+            if(fatSecretToken && Date.now() < tokenExpiry) return fatSecretToken;
+            
+            try {
+                const auth = btoa(`${FATSECRET_CONFIG.clientId}:${FATSECRET_CONFIG.clientSecret}`);
+                const r = await fetch('https://oauth.fatsecret.com/connect/token', {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Basic ${auth}`,
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    },
+                    body: 'grant_type=client_credentials&scope=basic'
+                });
+                const data = await r.json();
+                fatSecretToken = data.access_token;
+                tokenExpiry = Date.now() + (data.expires_in * 1000) - 60000;
+                return fatSecretToken;
+            } catch(e) {
+                console.error('FatSecret auth failed:', e);
+                return null;
+            }
+        }
+
+        async function searchFatSecret(term) {
+            if(!FATSECRET_CONFIG.enabled) return null;
+            
+            const token = await getFatSecretToken();
+            if(!token) return null;
+
+            try {
+                const r = await fetch(
+                    `https://platform.fatsecret.com/rest/server.api?method=foods.search&search_expression=${encodeURIComponent(term)}&format=json&max_results=20`,
+                    {
+                        headers: {
+                            'Authorization': `Bearer ${token}`,
+                            'Content-Type': 'application/json'
+                        }
+                    }
+                );
+                const data = await r.json();
+                
+                if(data.foods && data.foods.food) {
+                    const foods = Array.isArray(data.foods.food) ? data.foods.food : [data.foods.food];
+                    
+                    const detailed = await Promise.all(
+                        foods.slice(0, 10).map(async food => {
+                            try {
+                                const detailR = await fetch(
+                                    `https://platform.fatsecret.com/rest/server.api?method=food.get.v2&food_id=${food.food_id}&format=json`,
+                                    {
+                                        headers: {
+                                            'Authorization': `Bearer ${token}`,
+                                            'Content-Type': 'application/json'
+                                        }
+                                    }
+                                );
+                                const detail = await detailR.json();
+                                return detail.food || null;
+                            } catch(e) {
+                                return null;
+                            }
+                        })
+                    );
+
+                    return detailed.filter(f => f && f.food_name).map(f => ({
+                        code: f.food_id,
+                        name: f.food_name,
+                        brand: f.brand_name || 'Restaurant/Chain',
+                        ing: f.ingredients ? f.ingredients.ingredient : null,
+                        ingredients_text: f.ingredients ? f.ingredients.ingredient : null,
+                        src: 'restaurant'
+                    }));
+                }
+                return null;
+            } catch(e) {
+                console.error('FatSecret search failed:', e);
+                return null;
+            }
+        }
+
         async function search() {
             const term = document.getElementById('searchInput').value.trim().toLowerCase();
             if(!term)return;
@@ -293,12 +459,31 @@
                     currProds=d.products.map(p=>({...p,src:'api'}));
                     d.products.forEach(p=>addRecent(p));
                     render();
-                } else {
-                    document.getElementById('results').innerHTML='<div style="text-align:center;padding:3rem;color:#6b7280;">No products found</div>';
+                    btn.disabled=false;
+                    btn.textContent='Search';
+                    return;
                 }
             } catch(e) {
-                document.getElementById('results').innerHTML='<div style="text-align:center;padding:3rem;color:#6b7280;">Search failed. Try again.</div>';
+                console.error('Open Food Facts failed:', e);
             }
+
+            if(FATSECRET_CONFIG.enabled) {
+                try {
+                    const restaurantResults = await searchFatSecret(term);
+                    if(restaurantResults && restaurantResults.length > 0) {
+                        currProds = restaurantResults;
+                        restaurantResults.forEach(p=>addRecent(p));
+                        render();
+                        btn.disabled=false;
+                        btn.textContent='Search';
+                        return;
+                    }
+                } catch(e) {
+                    console.error('FatSecret failed:', e);
+                }
+            }
+
+            document.getElementById('results').innerHTML='<div style="text-align:center;padding:3rem;color:#6b7280;">No products found</div>';
             btn.disabled=false;
             btn.textContent='Search';
         }
