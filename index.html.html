@@ -209,11 +209,13 @@
         };
 
         const biblical = {
-            pork:['pork','pig','swine','bacon','ham','lard','pepsin'],
-            shellfish:['shrimp','crab','lobster','clam','oyster','mussel','catfish','eel'],
+            pork:['pork','pig','swine','bacon','ham','lard','pepsin','pepperoni','salami','prosciutto','sausage','chorizo','pancetta',
+                  'jambon','porc','schwein','schinken','cerdo','jamon','maiale','prosciutto','suino'], // Added multilingual pork terms
+            shellfish:['shrimp','crab','lobster','clam','oyster','mussel','catfish','eel','crevette','crabe','homard','mollusque',
+                      'gambas','cangrejo','langosta','mejillon','granchio','aragosta','cozze'], // Added multilingual shellfish
             unclean:['rabbit','hare','camel'],
             insects:['carmine','cochineal','shellac','e120'],
-            blood:['blood']
+            blood:['blood','sang']
         };
 
         const allergens = {
@@ -421,7 +423,21 @@
                         })
                     );
 
-                    return detailed.filter(f => f && f.food_name).map(f => {
+                    // Filter and map results
+                    return detailed.filter(f => {
+                        if(!f || !f.food_name) return false;
+                        
+                        // Check if ingredients exist and are in English
+                        if(f.ingredients && f.ingredients.ingredient) {
+                            const text = f.ingredients.ingredient.toLowerCase();
+                            // Reject if it contains obvious French words
+                            const frenchIndicators = ['au choix', 'présents', 'allergènes', 'légumes', 'sauces'];
+                            if(frenchIndicators.some(word => text.includes(word))) {
+                                return false; // Skip non-English results
+                            }
+                        }
+                        return true;
+                    }).map(f => {
                         const hasIngredients = f.ingredients && f.ingredients.ingredient;
                         return {
                             code: f.food_id,
