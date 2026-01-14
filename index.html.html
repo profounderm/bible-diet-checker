@@ -36,6 +36,7 @@
         .status-badge { display: inline-flex; padding: 0.5rem 1rem; border-radius: 2rem; font-weight: 700; font-size: 0.875rem; }
         .status-badge.compliant { background: #d1fae5; color: #065f46; }
         .status-badge.not-compliant { background: #fee2e2; color: #991b1b; }
+        .status-badge.no-data { background: #fef3c7; color: #92400e; }
         .violations { background: #fef2f2; border-left: 4px solid #dc2626; border-radius: 0.5rem; padding: 1rem; margin-top: 1rem; }
         .violation-item { font-size: 0.875rem; color: #7f1d1d; margin-bottom: 0.5rem; }
         .violation-note { font-size: 0.75rem; color: #dc2626; display: block; margin-top: 0.25rem; font-style: italic; }
@@ -264,7 +265,12 @@
         }
 
         function analyze(p,f) {
+            // Check for missing ingredient data
             if(!p.ing && !p.ingredients_text) return {ok:null,v:[]};
+            if(p.ing === 'NO_INGREDIENT_DATA' || p.ingredients_text === 'NO_INGREDIENT_DATA') {
+                return {ok:null,v:[{cat:'Missing Data',ing:'Ingredient information not available',note:'Unable to verify biblical compliance without ingredient list'}]};
+            }
+            
             const ings = (p.ing||p.ingredients_text).split(',').map(i=>i.trim());
             const all = [];
             ings.forEach(i=>{all.push(...checkIng(i,f))});
@@ -299,8 +305,10 @@
             const analyzed = currProds.map(p=>({...p,a:analyze(p,f)}));
             res.innerHTML = analyzed.map(p=>{
                 const open = openProds.has(p.code);
-                const badge = p.a.ok===null?'no-data':p.a.ok?'compliant':'not-compliant';
-                const text = p.a.ok===null?'No Data':p.a.ok?'✓ Compliant':'✗ Not Compliant';
+                const hasMissingData = p.a.v.some(v => v.cat === 'Missing Data');
+                const badge = hasMissingData ? 'not-compliant' : (p.a.ok===null?'no-data':p.a.ok?'compliant':'not-compliant');
+                const text = hasMissingData ? '⚠ No Data' : (p.a.ok===null?'No Data':p.a.ok?'✓ Compliant':'✗ Not Compliant');
+                const hasRealIngredients = p.ing && p.ing !== 'NO_INGREDIENT_DATA' || p.ingredients_text && p.ingredients_text !== 'NO_INGREDIENT_DATA';
                 return `
                     <div class="product-card">
                         <div style="display:flex;justify-content:space-between;align-items:start;margin-bottom:1rem;">
@@ -322,7 +330,7 @@
                                 `).join('')}
                             </div>
                         `:''}
-                        ${p.ing||p.ingredients_text?`
+                        ${hasRealIngredients?`
                             <button class="toggle-btn" onclick="toggle('${p.code}')">
                                 ${open?'Hide':'View'} Ingredients
                             </button>
@@ -380,7 +388,7 @@
 
             try {
                 const r = await fetch(
-                    `https://platform.fatsecret.com/rest/server.api?method=foods.search&search_expression=${encodeURIComponent(term)}&format=json&max_results=20`,
+                    `https://platform.fatsecret.com/rest/server.api?method=foods.search&search_expression=${encodeURIComponent(term)}&format=json&max_results=20&region=US&language=en`,
                     {
                         headers: {
                             'Authorization': `Bearer ${token}`,
@@ -397,7 +405,7 @@
                         foods.slice(0, 10).map(async food => {
                             try {
                                 const detailR = await fetch(
-                                    `https://platform.fatsecret.com/rest/server.api?method=food.get.v2&food_id=${food.food_id}&format=json`,
+                                    `https://platform.fatsecret.com/rest/server.api?method=food.get.v2&food_id=${food.food_id}&format=json&region=US&language=en`,
                                     {
                                         headers: {
                                             'Authorization': `Bearer ${token}`,
@@ -413,14 +421,18 @@
                         })
                     );
 
-                    return detailed.filter(f => f && f.food_name).map(f => ({
-                        code: f.food_id,
-                        name: f.food_name,
-                        brand: f.brand_name || 'Restaurant/Chain',
-                        ing: f.ingredients ? f.ingredients.ingredient : null,
-                        ingredients_text: f.ingredients ? f.ingredients.ingredient : null,
-                        src: 'restaurant'
-                    }));
+                    return detailed.filter(f => f && f.food_name).map(f => {
+                        const hasIngredients = f.ingredients && f.ingredients.ingredient;
+                        return {
+                            code: f.food_id,
+                            name: f.food_name,
+                            brand: f.brand_name || 'Restaurant/Chain',
+                            ing: hasIngredients ? f.ingredients.ingredient : 'NO_INGREDIENT_DATA',
+                            ingredients_text: hasIngredients ? f.ingredients.ingredient : 'NO_INGREDIENT_DATA',
+                            src: 'restaurant',
+                            missingData: !hasIngredients
+                        };
+                    });
                 }
                 return null;
             } catch(e) {
