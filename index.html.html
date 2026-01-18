@@ -115,7 +115,14 @@
             cursor: pointer;
             display: flex;
             align-items: center;
+            justify-content: center;
             gap: 0.5rem;
+            white-space: nowrap;
+        }
+
+        .btn-icon {
+            padding: 0.75rem;
+            min-width: 48px;
         }
 
         .btn:hover {
@@ -135,33 +142,13 @@
             background: #4b5563;
         }
 
-        /* Barcode Scanner */
+        /* Barcode Entry */
         .barcode-section {
             background: white;
             border-radius: 0.5rem;
             box-shadow: 0 1px 3px rgba(0,0,0,0.1);
             padding: 1.5rem;
             margin-bottom: 1.5rem;
-        }
-
-        #video {
-            width: 100%;
-            max-width: 500px;
-            border-radius: 0.5rem;
-            display: block;
-            background: #000;
-        }
-
-        #videoContainer {
-            max-width: 500px;
-            margin: 0 auto;
-        }
-
-        .scanner-controls {
-            display: flex;
-            gap: 0.5rem;
-            justify-content: center;
-            margin-top: 1rem;
         }
 
         .filters {
@@ -404,6 +391,15 @@
                 grid-template-columns: 1fr;
             }
         }
+
+        @keyframes spin {
+            from {
+                transform: rotate(0deg);
+            }
+            to {
+                transform: rotate(360deg);
+            }
+        }
     </style>
 </head>
 <body>
@@ -428,58 +424,32 @@
                         class="search-input" 
                         placeholder="Search for a food product..."
                     >
-                    <button id="searchBtn" class="btn">
-                        <span>Search</span>
+                    <button id="searchBtn" class="btn btn-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="11" cy="11" r="8"></circle>
+                            <path d="m21 21-4.35-4.35"></path>
+                        </svg>
                     </button>
                 </div>
 
-                <!-- Barcode Scanner Section -->
+                <!-- Barcode Entry Section -->
                 <div class="barcode-section">
-                    <h3 style="margin-bottom: 1rem; font-size: 1.125rem;">📷 Barcode Scanner</h3>
-                    
-                    <!-- Mobile Scanner -->
-                    <div id="mobileScannerSection" style="display: none;">
-                        <p style="color: #6b7280; font-size: 0.875rem; margin-bottom: 1rem;">
-                            Click "Start Scanner" to use your camera to scan product barcodes
-                        </p>
-                        <div class="scanner-controls">
-                            <button id="startScanBtn" class="btn" onclick="startBarcodeScanner()">
-                                Start Scanner
-                            </button>
-                            <button id="stopScanBtn" class="btn btn-secondary" onclick="stopBarcodeScanner()" style="display: none;">
-                                Stop Scanner
-                            </button>
-                        </div>
-                        <div id="videoContainer" style="position: relative; display: none; margin-top: 1rem;">
-                            <video id="video"></video>
-                            <svg id="scanLine" style="position: absolute; top: 50%; left: 0; right: 0; width: 100%; height: 2px; pointer-events: none;">
-                                <line x1="10%" y1="0" x2="90%" y2="0" stroke="#dc2626" stroke-width="3">
-                                    <animate attributeName="y1" values="0;0" dur="2s" repeatCount="indefinite"/>
-                                    <animate attributeName="y2" values="0;0" dur="2s" repeatCount="indefinite"/>
-                                </line>
-                            </svg>
-                        </div>
-                        <canvas id="canvas" style="display: none;"></canvas>
-                    </div>
-
-                    <!-- Desktop Barcode Input -->
-                    <div id="desktopBarcodeSection" style="display: none;">
-                        <p style="color: #6b7280; font-size: 0.875rem; margin-bottom: 1rem;">
-                            📱 Camera scanning is available on mobile devices. On desktop, enter the barcode number manually:
-                        </p>
-                        <div class="search-box">
-                            <input 
-                                type="text" 
-                                id="barcodeInput" 
-                                class="search-input" 
-                                placeholder="Enter barcode number (e.g., 737628064502)..."
-                                pattern="[0-9]*"
-                                inputmode="numeric"
-                            >
-                            <button class="btn" onclick="searchByManualBarcode()">
-                                Look Up
-                            </button>
-                        </div>
+                    <h3 style="margin-bottom: 1rem; font-size: 1.125rem;">🔢 Barcode Lookup</h3>
+                    <p style="color: #6b7280; font-size: 0.875rem; margin-bottom: 1rem;">
+                        Enter the barcode number found on product packaging (usually 12-13 digits)
+                    </p>
+                    <div class="search-box">
+                        <input 
+                            type="text" 
+                            id="barcodeInput" 
+                            class="search-input" 
+                            placeholder="Enter barcode number (e.g., 737628064502)..."
+                            pattern="[0-9]*"
+                            inputmode="numeric"
+                        >
+                        <button class="btn" onclick="searchByManualBarcode()">
+                            <span>Look Up</span>
+                        </button>
                     </div>
                 </div>
 
@@ -702,9 +672,6 @@
         </div>
     </div>
 
-    <!-- Include ZXing library for barcode scanning -->
-    <script src="https://unpkg.com/@zxing/library@latest"></script>
-
     <script>
         const biblicalRestrictions = {
             pork: ['pork', 'pig', 'swine', 'bacon', 'ham', 'lard', 'pepsin', 'pancreatin'],
@@ -730,26 +697,6 @@
         };
 
         let openProducts = new Set();
-        let codeReader = null;
-        let currentStream = null;
-        let scanningInterval = null;
-
-        // Detect if user is on mobile device
-        function isMobileDevice() {
-            return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ||
-                   (window.innerWidth <= 768);
-        }
-
-        // Initialize page - show appropriate barcode section
-        window.addEventListener('DOMContentLoaded', () => {
-            if (isMobileDevice()) {
-                document.getElementById('mobileScannerSection').style.display = 'block';
-                document.getElementById('desktopBarcodeSection').style.display = 'none';
-            } else {
-                document.getElementById('mobileScannerSection').style.display = 'none';
-                document.getElementById('desktopBarcodeSection').style.display = 'block';
-            }
-        });
 
         // Tab switching
         function switchTab(tabName) {
@@ -766,7 +713,7 @@
             event.target.classList.add('active');
         }
 
-        // Manual barcode input for desktop
+        // Manual barcode input
         function searchByManualBarcode() {
             const barcodeInput = document.getElementById('barcodeInput');
             const barcode = barcodeInput.value.trim();
@@ -782,89 +729,6 @@
             }
             
             searchByBarcode(barcode);
-        }
-
-        // Barcode scanner functions for mobile
-        async function startBarcodeScanner() {
-            try {
-                const videoElement = document.getElementById('video');
-                const videoContainer = document.getElementById('videoContainer');
-                
-                videoContainer.style.display = 'block';
-                document.getElementById('startScanBtn').style.display = 'none';
-                document.getElementById('stopScanBtn').style.display = 'inline-flex';
-
-                // Request camera access with back camera preference
-                const constraints = {
-                    video: { 
-                        facingMode: { ideal: 'environment' },
-                        width: { ideal: 1280 },
-                        height: { ideal: 720 }
-                    }
-                };
-
-                currentStream = await navigator.mediaDevices.getUserMedia(constraints);
-                videoElement.srcObject = currentStream;
-                await videoElement.play();
-
-                // Initialize ZXing barcode reader
-                codeReader = new ZXing.BrowserMultiFormatReader();
-                
-                // Start continuous scanning
-                const hints = new Map();
-                const formats = [
-                    ZXing.BarcodeFormat.EAN_13,
-                    ZXing.BarcodeFormat.EAN_8,
-                    ZXing.BarcodeFormat.UPC_A,
-                    ZXing.BarcodeFormat.UPC_E,
-                    ZXing.BarcodeFormat.CODE_128,
-                    ZXing.BarcodeFormat.CODE_39
-                ];
-                hints.set(ZXing.DecodeHintType.POSSIBLE_FORMATS, formats);
-                
-                codeReader.decodeFromVideoDevice(
-                    undefined, // Use default camera
-                    'video',
-                    (result, error) => {
-                        if (result) {
-                            console.log('Barcode detected:', result.text);
-                            // Play success feedback
-                            navigator.vibrate && navigator.vibrate(200);
-                            searchByBarcode(result.text);
-                            stopBarcodeScanner();
-                        }
-                        if (error && !(error instanceof ZXing.NotFoundException)) {
-                            console.error('Scan error:', error);
-                        }
-                    }
-                );
-
-            } catch (error) {
-                console.error('Camera access error:', error);
-                alert('Unable to access camera. Please ensure you have granted camera permissions and are using HTTPS.');
-                stopBarcodeScanner();
-            }
-        }
-
-        function stopBarcodeScanner() {
-            if (codeReader) {
-                codeReader.reset();
-                codeReader = null;
-            }
-            
-            if (currentStream) {
-                currentStream.getTracks().forEach(track => track.stop());
-                currentStream = null;
-            }
-
-            const videoElement = document.getElementById('video');
-            const videoContainer = document.getElementById('videoContainer');
-            
-            videoContainer.style.display = 'none';
-            videoElement.srcObject = null;
-            
-            document.getElementById('startScanBtn').style.display = 'inline-flex';
-            document.getElementById('stopScanBtn').style.display = 'none';
         }
 
         async function searchByBarcode(barcode) {
@@ -1122,7 +986,7 @@
             const searchBtn = document.getElementById('searchBtn');
             
             searchBtn.disabled = true;
-            searchBtn.innerHTML = '<span>Searching...</span>';
+            searchBtn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="animation: spin 1s linear infinite;"><circle cx="12" cy="12" r="10"></circle><path d="M12 6v6l4 2"></path></svg>';
             resultsDiv.innerHTML = '<div class="loading">Searching Open Food Facts database...</div>';
 
             try {
@@ -1146,7 +1010,7 @@
             }
 
             searchBtn.disabled = false;
-            searchBtn.innerHTML = '<span>Search</span>';
+            searchBtn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.35-4.35"></path></svg>';
         }
 
         // Single ingredient checker
@@ -1210,14 +1074,8 @@
             if (e.key === 'Enter') checkSingleIngredient();
         });
 
-        // Add listener for barcode input if it exists (desktop only)
-        window.addEventListener('DOMContentLoaded', () => {
-            const barcodeInput = document.getElementById('barcodeInput');
-            if (barcodeInput) {
-                barcodeInput.addEventListener('keypress', (e) => {
-                    if (e.key === 'Enter') searchByManualBarcode();
-                });
-            }
+        document.getElementById('barcodeInput').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') searchByManualBarcode();
         });
 
         document.querySelectorAll('.filter-item input').forEach(checkbox => {
